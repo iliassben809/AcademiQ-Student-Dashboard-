@@ -1417,7 +1417,7 @@ const Settings = {
         <div class="developer-top">
           <div class="developer-image-wrap">
 
-            <img src="icon.svg"
+            <img src="ana.JPG"
             alt="Developer"
             class="developer-image">
 
