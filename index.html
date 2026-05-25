@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AcademiQ — Student Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:wght@700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="icon.svg">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+</head>
+
+<body>
+
+  <!-- ══════════════════════════════════════
+     LOGIN PAGE
+══════════════════════════════════════ -->
+  <div id="login-page" class="login-page">
+    <div class="login-bg">
+      <div class="login-orb orb1"></div>
+      <div class="login-orb orb2"></div>
+      <div class="login-orb orb3"></div>
+      <div class="login-grid-lines"></div>
+    </div>
+
+    <button class="login-theme-btn" onclick="App.toggleTheme()" title="Toggle theme">
+      <span id="login-theme-icon">☀</span>
+    </button>
+
+    <!-- MAIN LOGIN CARD -->
+    <div class="login-card" id="login-card-main">
+      <div class="login-brand">
+        <span class="brand-icon">◈</span>
+        <span class="brand-name">AcademiQ</span>
+      </div>
+      <h2 class="login-title">Welcome back</h2>
+      <p class="login-subtitle">Sign in to your student portal</p>
+      <div class="login-form">
+        <div class="form-group">
+          <label>Student ID / Email</label>
+          <input type="text" id="login-email" placeholder="iliasben@gmail.com"
+            onkeydown="if(event.key==='Enter')App.login()" />
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <div class="password-wrap">
+            <input type="password" id="login-password" placeholder="••••••••"
+              onkeydown="if(event.key==='Enter')App.login()" />
+            <button class="pass-toggle" onclick="App.togglePasswordView()" title="Show/hide password">
+              <span id="pass-eye">👁</span>
+            </button>
+          </div>
+        </div>
+        <div class="login-options">
+          <label class="remember-me"><input type="checkbox" id="remember-me-check" /> Remember me</label>
+          <a class="forgot-link" onclick="App.showForgot()">Forgot password?</a>
+        </div>
+        <button class="login-btn" onclick="App.login()">
+          <span class="login-btn-text">Sign In</span>
+          <span class="login-btn-arrow">→</span>
+        </button>
+        <div class="login-divider"><span>or</span></div>
+        <button class="login-btn-outline" onclick="App.showRegister()">
+          Create new account
+        </button>
+      </div>
+    </div>
+
+    <!-- REGISTER CARD -->
+    <div class="login-card" id="login-card-register" style="display:none">
+      <div class="login-brand">
+        <span class="brand-icon">◈</span>
+        <span class="brand-name">AcademiQ</span>
+      </div>
+      <h2 class="login-title">Create Account</h2>
+      <p class="login-subtitle">Join AcademiQ and track your academic progress</p>
+      <div class="login-form">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" id="reg-name" placeholder="iliasben" />
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="reg-email" placeholder="iliasben@gmail.com" />
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <div class="password-wrap">
+            <input type="password" id="reg-password" placeholder="Min. 4 characters"
+              onkeydown="if(event.key==='Enter')App.register()" />
+            <button class="pass-toggle" onclick="App.togglePasswordView('reg-password','reg-pass-eye')"
+              title="Show/hide password">
+              <span id="reg-pass-eye">👁</span>
+            </button>
+          </div>
+        </div>
+        <div class="form-row" style="gap:12px">
+          <div class="form-group">
+            <label>Program / Major</label>
+            <input type="text" id="reg-program" placeholder="Computer Science" />
+          </div>
+          <div class="form-group">
+            <label>Year</label>
+            <select id="reg-year">
+              <option value="1">1st Year</option>
+              <option value="2">2nd Year</option>
+              <option value="3">3rd Year</option>
+              <option value="4">4th Year</option>
+              <option value="5">5th Year</option>
+            </select>
+          </div>
+        </div>
+        <button class="login-btn" onclick="App.register()">
+          <span class="login-btn-text">Create Account</span>
+          <span class="login-btn-arrow">→</span>
+        </button>
+        <button class="back-link" onclick="App.showLogin()">← Back to Sign In</button>
+      </div>
+    </div>
+
+    <!-- FORGOT PASSWORD CARD -->
+    <div class="login-card" id="login-card-forgot" style="display:none">
+      <div class="login-brand">
+        <span class="brand-icon">◈</span>
+        <span class="brand-name">AcademiQ</span>
+      </div>
+      <div id="forgot-form-wrap">
+        <h2 class="login-title">Reset Password</h2>
+        <p class="login-subtitle">Enter your email and we'll send a reset link</p>
+        <div class="login-form">
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="forgot-email" placeholder="iliasben@gmail.com"
+              onkeydown="if(event.key==='Enter')ForgotPassword.send()" />
+          </div>
+          <button class="login-btn" onclick="ForgotPassword.send()">
+            <span class="login-btn-text">Send Reset Link</span>
+            <span class="login-btn-arrow">→</span>
+          </button>
+          <button class="back-link" onclick="App.showLogin()">← Back to Sign In</button>
+        </div>
+      </div>
+      <div id="forgot-success-wrap" style="display:none;text-align:center;padding:20px 0">
+        <div style="font-size:48px;margin-bottom:16px">📬</div>
+        <h3 style="font-size:20px;font-weight:700;margin-bottom:8px">Check your inbox</h3>
+        <p style="color:var(--text2);font-size:14px;line-height:1.6">If an account exists for that email, a reset link
+          has been sent.</p>
+        <button class="back-link" style="margin-top:24px" onclick="App.showLogin()">← Back to Sign In</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+     MAIN APP
+══════════════════════════════════════ -->
+  <div id="app" class="app hidden">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <span class="brand-icon">◈</span>
+        <span class="brand-name">AcademiQ</span>
+        <button class="sidebar-close" onclick="App.toggleSidebar()">✕</button>
+      </div>
+      <nav class="sidebar-nav">
+        <a class="nav-item active" data-page="dashboard" onclick="App.navigate('dashboard')">
+          <span class="nav-icon">⬡</span><span class="nav-label">Dashboard</span>
+        </a>
+        <a class="nav-item" data-page="grades" onclick="App.navigate('grades')">
+          <span class="nav-icon">◎</span><span class="nav-label">Grades</span>
+        </a>
+        <a class="nav-item" data-page="schedule" onclick="App.navigate('schedule')">
+          <span class="nav-icon">◷</span><span class="nav-label">Schedule</span>
+        </a>
+        <a class="nav-item" data-page="tasks" onclick="App.navigate('tasks')">
+          <span class="nav-icon">◉</span><span class="nav-label">Tasks</span>
+          <span class="nav-badge zero" id="tasks-badge">0</span>
+        </a>
+        <a class="nav-item" data-page="absences" onclick="App.navigate('absences')">
+          <span class="nav-icon">◌</span><span class="nav-label">Absences</span>
+        </a>
+        <a class="nav-item" data-page="statistics" onclick="App.navigate('statistics')">
+          <span class="nav-icon">◈</span><span class="nav-label">Statistics</span>
+        </a>
+        <div class="nav-divider"></div>
+        <a class="nav-item" data-page="settings" onclick="App.navigate('settings')">
+          <span class="nav-icon">⊙</span><span class="nav-label">Settings</span>
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="sidebar-user" onclick="App.navigate('profile')" style="cursor:pointer;flex:1">
+          <div class="user-avatar-sm" id="sidebar-avatar">?</div>
+          <div class="user-info-sm">
+            <span class="user-name-sm" id="sidebar-name">—</span>
+            <span class="user-grade-sm" id="sidebar-sub">—</span>
+          </div>
+        </div>
+        <button class="logout-btn" onclick="App.logout()" title="Sign out">⏻</button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-wrapper">
+
+      <!-- TOP NAVBAR -->
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="menu-btn" onclick="App.toggleSidebar()">☰</button>
+          <div class="search-bar">
+            <span class="search-icon">⌕</span>
+            <input type="text" id="search-input" placeholder="Search subjects, tasks, events…"
+              oninput="App.search(this.value)" />
+            <div class="search-results" id="search-results"></div>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <button class="icon-btn theme-toggle" onclick="App.toggleTheme()" title="Toggle theme">
+            <span id="theme-icon">☀</span>
+          </button>
+          <div class="notif-wrapper">
+            <button class="icon-btn notif-btn" onclick="App.toggleNotifications()">
+              🔔<span class="notif-dot" id="notif-dot"></span>
+            </button>
+            <div class="notif-panel" id="notif-panel">
+              <div class="notif-header">
+                <strong>Notifications</strong>
+                <button onclick="App.clearNotifications()">Clear all</button>
+              </div>
+              <div id="notif-list"></div>
+            </div>
+          </div>
+          <div class="user-profile" onclick="App.navigate('profile')" style="cursor:pointer">
+            <div class="user-avatar" id="topbar-avatar">?</div>
+            <div class="user-meta">
+              <span class="user-name" id="topbar-name">—</span>
+              <span class="user-sub" id="topbar-sub">—</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- PAGE CONTENT -->
+      <main class="content" id="content">
+
+        <!-- DASHBOARD PAGE -->
+        <section id="page-dashboard" class="page active">
+          <div class="page-header">
+            <div>
+              <h1 class="page-title" id="dashboard-greeting">Good morning 👋</h1>
+              <p class="page-subtitle">Here's your academic overview for today</p>
+            </div>
+            <div class="header-date" id="header-date"></div>
+          </div>
+          <div class="stat-cards">
+            <div class="stat-card card-blue" onclick="App.navigate('grades')">
+              <div class="stat-icon">◎</div>
+              <div class="stat-info">
+                <div class="stat-value" id="dash-avg">—</div>
+                <div class="stat-label">General Average</div>
+              </div>
+              <div class="stat-trend" id="dash-avg-trend"></div>
+            </div>
+            <div class="stat-card card-green" onclick="App.navigate('schedule')">
+              <div class="stat-icon">◷</div>
+              <div class="stat-info">
+                <div class="stat-value" id="dash-classes">—</div>
+                <div class="stat-label">Classes Today</div>
+              </div>
+            </div>
+            <div class="stat-card card-amber" onclick="App.navigate('tasks')">
+              <div class="stat-icon">◉</div>
+              <div class="stat-info">
+                <div class="stat-value" id="dash-tasks">—</div>
+                <div class="stat-label">Pending Tasks</div>
+              </div>
+            </div>
+            <div class="stat-card card-red" onclick="App.navigate('absences')">
+              <div class="stat-icon">◌</div>
+              <div class="stat-info">
+                <div class="stat-value" id="dash-abs">—</div>
+                <div class="stat-label">Absences</div>
+              </div>
+            </div>
+          </div>
+          <div class="dash-grid">
+            <div class="dash-panel">
+              <div class="panel-header">
+                <h3>Today's Schedule</h3><button onclick="App.navigate('schedule')">See all</button>
+              </div>
+              <div id="dash-today-schedule"></div>
+            </div>
+            <div class="dash-panel">
+              <div class="panel-header">
+                <h3>Upcoming Tasks</h3><button onclick="App.navigate('tasks')">See all</button>
+              </div>
+              <div id="dash-upcoming-tasks"></div>
+            </div>
+            <div class="dash-panel panel-wide">
+              <div class="panel-header">
+                <h3>Subject Averages</h3><button onclick="App.navigate('statistics')">Full stats</button>
+              </div>
+              <div id="dash-subject-bars"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- GRADES PAGE -->
+        <section id="page-grades" class="page">
+          <div class="page-header">
+            <div>
+              <h1 class="page-title">Grades</h1>
+              <p class="page-subtitle">Manage your subjects and grades</p>
+            </div>
+            <div class="header-actions">
+              <div class="avg-badge">Avg: <strong id="global-avg-display">—</strong></div>
+              <button class="btn-primary" onclick="Grades.openAddSubject()">+ Add Subject</button>
+              <button class="btn-secondary" onclick="Grades.exportPDF()">
+                <span class="btn-icon">⬇</span> Export
+              </button>
+            </div>
+          </div>
+          <div id="grades-container"></div>
+        </section>
+
+        <!-- SCHEDULE PAGE -->
+        <section id="page-schedule" class="page">
+          <div class="page-header">
+            <div>
+              <h1 class="page-title">Weekly Schedule</h1>
+              <p class="page-subtitle">Your timetable for this semester</p>
+            </div>
+            <button class="btn-primary" onclick="Schedule.openAdd()">+ Add Class</button>
+          </div>
+          <div class="schedule-grid" id="schedule-grid"></div>
+        </section>
+
+        <!-- TASKS PAGE -->
+        <section id="page-tasks" class="page">
+          <div class="page-header">
+            <div>
+              <h1 class="page-title">Tasks</h1>
+              <p class="page-subtitle">Stay on top of your to-dos</p>
+            </div>
+            <button class="btn-primary" onclick="Tasks.openAdd()">+ Add Task</button>
+          </div>
+          <div class="tasks-toolbar">
+            <div class="filter-tabs">
+              <button class="filter-tab active" data-filter="all" onclick="Tasks.setFilter('all', this)">All</button>
+              <button class="filter-tab" data-filter="pending"
+                onclick="Tasks.setFilter('pending', this)">Pending</button>
+              <button class="filter-tab" data-filter="completed"
+                onclick="Tasks.setFilter('completed', this)">Completed</button>
+              <button class="filter-tab" data-filter="high" onclick="Tasks.setFilter('high', this)">High
+                Priority</button>
+            </div>
+            <div class="task-stats-mini"><span id="tasks-summary"></span></div>
+          </div>
+          <div id="tasks-container"></div>
+        </section>
+
+        <!-- ABSENCES PAGE -->
+        <section id="page-absences" class="page">
+          <div class="page-header">
+            <div>
+              <h1 class="page-title">Absences</h1>
+              <p class="page-subtitle">Track your attendance record</p>
+            </div>
+            <button class="btn-primary" onclick="Absences.openAdd()">+ Log Absence</button>
+          </div>
+          <div class="absence-summary" id="absence-summary"></div>
+          <div id="absences-container"></div>
+        </section>
+
+        <!-- STATISTICS PAGE -->
+        <section id="page-statistics" class="page">
+          <div class="page-header">
+            <div>
+              <h1 class="page-title">Statistics</h1>
+              <p class="page-subtitle">Your academic performance analytics</p>
+            </div>
+          </div>
+          <div id="statistics-container"></div>
+        </section>
+
+        <!-- PROFILE PAGE -->
+        <section id="page-profile" class="page">
+          <div class="page-header">
+            <div>
+              <h1 class="page-title">My Profile</h1>
+              <p class="page-subtitle">Manage your personal information</p>
+            </div>
+          </div>
+          <div id="profile-container"></div>
+        </section>
+
+        <!-- SETTINGS PAGE -->
+        <section id="page-settings" class="page">
+          <div class="page-header">
+            <div>
+              <h1 class="page-title">Settings</h1>
+              <p class="page-subtitle">Customize your experience</p>
+            </div>
+          </div>
+          <div id="settings-container"></div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- MODALS -->
+  <div class="modal-overlay" id="modal-overlay" onclick="Modal.close()">
+    <div class="modal" id="modal" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h3 id="modal-title">Modal</h3>
+        <button class="modal-close" onclick="Modal.close()">✕</button>
+      </div>
+      <div class="modal-body" id="modal-body"></div>
+    </div>
+  </div>
+  
+  <!-- TOAST -->
+  <div id="toast-container"></div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
